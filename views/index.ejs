@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Time Warner Cable Sucks</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid top">
+        <div class="container">
+            <div class="headerText">
+                <h1 class="display-4" id="greeting">The internet is
+                    <%= (up ? "up" : "down") %>
+                </h1>
+                <p class="lead" id="introduction">Last check:
+                    <%= lastCheck %>
+                </p>
+                <button id="check-again" class="btn btn-outline-primary">Check Now</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <h1>Statistics from the last 30 days</h1>
+        <p class="lead">(Since
+            <%= since %>)</p>
+        <ul>
+            <li><strong>Checks made:</strong> <span id="total">
+                    <%= upCount + downCount %></span></li>
+            <li><strong>Internet Up:</strong> <span id="up">
+                    <%= upCount %></span></li>
+            <li><strong>Internet Down:</strong> <span id="down">
+                    <%= downCount %></span></li>
+        </ul>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>History</h3>
+                <table class="table" id="history-preview">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date/Time</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i = 0; i < 5; i++) { %>
+                        <tr>
+                            <% if(data[data.length-i] != undefined){ %>
+                            <th scope="row"><%= data.length-i %></th>
+                            <td><%= data[data.length-i].time %></td>
+                            <td><%= ((data[data.length-i].isUp > 0) ? "Up" : "Down") %></td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <button class="btn btn-outline-primary btn-block" id="show-history">Show Full History</button>
+                <table class="table hidden" id="history">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Date/Time</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(key in data) { %>
+                        <tr>
+                            <% if(data[data.length - key] != undefined){ %>
+                            <th scope="row"><%= data.length - key %></th>
+                            <td><%= data[data.length - key].time %></td>
+                            <td><%= ((data[data.length-key].isUp > 0) ? "Up" : "Down") %></td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h3>Chart</h3>
+                <canvas id="doughnut"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/chart.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
